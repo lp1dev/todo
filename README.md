@@ -10,5 +10,7 @@ How to use :
 --Options--
 
 add     NAME  : Add a new task
+
 rm      TASK_ID	: Remove a task
+
 status  TASK_ID	: Change the status of a task
