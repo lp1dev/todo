@@ -16,12 +16,11 @@ def             readh():
 def             show():
     i = 0;
     try:
-        with open(todofolder+"/.todolist", "r+"):
-            todolist = open(todofolder+"/.todolist", "r+")
+        with open(todofolder+".todolist", "r+"):
+            todolist = open(todofolder+".todolist", "r+")
     except IOError:
-        print "You actually have no todo file. Please execute this command : \ntouch "+todofolder+".todolist";
+        print("You actually have no todo file. Please execute this command : \ntouch "+todofolder+".todolist")
         sys.exit(0);
-    todolist = open(todofolder+"/.todolist", "r+");
     todo = todolist.readlines();
     while (i < len(todo)):
         task = todo[i][:-1].split(';');
