@@ -2,7 +2,7 @@
 
 import  sys
 
-todofolder="/home/amsell_j"
+todofolder=""
 debug = 1
 green = "\033[1;32m"
 white = "\033[0;m"
@@ -15,6 +15,12 @@ def             readh():
 
 def             show():
     i = 0;
+    try:
+        with open(todofolder+"/.todolist", "r+"):
+            todolist = open(todofolder+"/.todolist", "r+")
+    except IOError:
+        print "You actually have no todo file. Please execute this command : \ntouch "+todofolder+".todolist";
+        sys.exit(0);
     todolist = open(todofolder+"/.todolist", "r+");
     todo = todolist.readlines();
     while (i < len(todo)):
