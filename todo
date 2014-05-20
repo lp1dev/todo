@@ -35,12 +35,12 @@ def             show():
     todolist.close();
 
 def             add(desc):
-    todolist = open(todofolder+"/.todolist", "a");
+    todolist = open(todofolder+".todolist", "a");
     todolist.write(desc+";0\n");
     todolist.close();
 
 def             rm(num):
-    todolist = open(todofolder+"/.todolist", "r+");
+    todolist = open(todofolder+".todolist", "r+");
     todo = todolist.readlines();
     i = 0;
     if (num < len(todo)):
@@ -48,14 +48,14 @@ def             rm(num):
     else:
         print("This task doesn't exists");
     todolist.close();
-    todolist = open(todofolder+"/.todolist", "w");
+    todolist = open(todofolder+".todolist", "w");
     while (i < len(todo)):
         todolist.write(todo[i]);
         i = i + 1;
     todolist.close();
 
 def             status(num):
-    todolist = open(todofolder+"/.todolist", "r+");
+    todolist = open(todofolder+".todolist", "r+");
     todo = todolist.readlines();
     i = 0;
     while (i < len(todo)):
@@ -69,7 +69,7 @@ def             status(num):
         i = i + 1;
     todolist.close();
     i = 0;
-    todolist = open(todofolder+"/.todolist", "w");
+    todolist = open(todofolder+".todolist", "w");
     while (i < len(todo)):
         todolist.write(todo[i]);
         i = i + 1;
