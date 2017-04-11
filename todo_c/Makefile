@@ -1,6 +1,6 @@
 NAME=todo
 SRCS=todo.c
-GCC=gcc -o ${NAME} ${SRCS}
+GCC=gcc -g -o ${NAME} ${SRCS}
 
 all: 
 	${GCC}
