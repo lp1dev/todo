@@ -1,16 +1,34 @@
-todo
-====
+# Todo
 
-Todo is a python program to manage his tasks in command line. (For example with conky)
+### Simple command line todolist
 
-How to use :
+I first wrote the Python version 4 years ago, and then decided to do the same program over using different languages.
+Here is the original readme that I'm using as specifications :
 
-./todo [option]
+> todo
+> ====
+>
+> Todo is a python program to manage his tasks in command line. (For example with conky)
+>
+> How to use :
+>
+> ./todo [option]
+>
+> --Options--
+>
+> add     NAME  : Add a new task
+>
+> rm      TASK_ID	: Remove a task
+>
+> status  TASK_ID	: Change the status of a task
 
---Options--
+## Available versions
 
-add     NAME  : Add a new task
+- todo_python : The legacy one, fully working
+- todo_c : WIP
 
-rm      TASK_ID	: Remove a task
+## Upcoming verions
 
-status  TASK_ID	: Change the status of a task
+- todo_go
+- todo_ruby
+- todo_asm
