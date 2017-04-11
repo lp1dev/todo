@@ -25,10 +25,10 @@ Here is the original readme that I'm using as specifications :
 ## Available versions
 
 - todo_python : The legacy one, fully working
-- todo_c : WIP
+- todo_c : Working
+- todo_go : WIP
 
 ## Upcoming verions
 
-- todo_go
 - todo_ruby
 - todo_asm
