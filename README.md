@@ -2,7 +2,7 @@
 
 ### Simple command line todolist
 
-I first wrote the Python version 4 years ago, and then decided to do the same program over using different languages.
+I first wrote the Python version 4 years ago, and a few days ago decided to do the same program over using different languages.
 Here is the original readme that I'm using as specifications :
 
 > todo

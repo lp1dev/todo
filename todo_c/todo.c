@@ -39,8 +39,24 @@ Task createTask(char *string){
 
 void print_tasks(TodoList *tl){
   for(int i = 0; i < tl->num_tasks; i++){
-    printf("[%i] : %s\n", tl->tasks[i]->status, tl->tasks[i]->name);
+    printf("%i [%s] : %s\n", i, tl->tasks[i]->status ? "Done" : "Todo", tl->tasks[i]->name);
   }
+}
+
+void dump_file(TodoList *tl){
+  char *todolist_file = getenv("HOME");
+  int fd = open(todolist_file, O_RDWR);
+  char *buffer = malloc(sizeof(char) * BUFFER_SIZE);
+  if (fd < 0){
+    printf("%s : no such file\n", todolist_file);
+    exit(-1);    
+  }
+  for(int i = 0; i < tl->num_tasks; i++){
+    if (strlen(tl->tasks[i]->name) > 0){
+      sprintf(buffer, "%s;%i\n", tl->tasks[i]->name, tl->tasks[i]->status);
+      write(fd, buffer, strlen(buffer));
+    }
+  } 
 }
 
 TodoList *parseFile(){
@@ -78,29 +94,66 @@ Params handle_params(int argc, char **argv){
   return tmp;
 }
 
-void list(char **argv){
-  TodoList *tl = parseFile();
+int list(int argc, char **argv, TodoList *tl){
+  print_tasks(tl);
+  return 0;
+}
+
+int help(int argc, char **argv, TodoList *tl){
+  printf("usage : %s [list|help|add|rm|status] task\n", argv[0]);
+  return 0;
+}
+
+int add(int argc, char **argv, TodoList *tl){
+  if (argc != 3){
+    help(argc, argv, tl);
+    return -1;
+  }
+  if (strlen(argv[2]) > 1){
+    Task task = malloc(sizeof(Task) * 2);
+    task->name = argv[2];
+    task->status = 0;
+    tl->tasks[tl->num_tasks] = task;
+    tl->num_tasks++;
+    dump_file(tl);
+  }
   print_tasks(tl);
 }
 
-void help(char **argv){
-  printf("usage : %s [list|help|add|rm|status] task\n", argv[0]);
+int rm(int argc, char **argv, TodoList *tl){
+  if (argc != 3){
+    help(argc, argv, tl);
+    return -1;
+  }
+  int num = atoi(argv[2]);
+  if (num > -1 && num < tl->num_tasks){
+    for (int i = num; i < tl->num_tasks; i++){
+      tl->tasks[i] = tl->tasks[i+1];
+    }
+    tl->tasks[tl->num_tasks - 1] = NULL;
+    tl->num_tasks--;
+    dump_file(tl);
+  }
+  print_tasks(tl);
 }
 
-void add(char **argv){
+int status(int argc, char **argv, TodoList *tl){
+    if (argc != 3){
+    help(argc, argv, tl);
+    return -1;
+  }
+  int num = atoi(argv[2]);
+  if (num > -1 && num < tl->num_tasks){
+    tl->tasks[num]->status = !(tl->tasks[num]->status);
+    dump_file(tl);
+  }
+  print_tasks(tl);
 }
 
-void rm(char **argv){
-}
-
-void status(char **argv){
-}
-
-
-Params params;
-void (*actions[5])(char**) = {list, help, status, add, rm};
+int (*actions[5])(int, char**, TodoList *) = {list, help, status, add, rm};
 
 int main(int argc, char **argv){
+  Params params;
   params = handle_params(argc, argv);
-  (*actions[params.action])(argv);
+  return (*actions[params.action])(argc, argv, parseFile());
 }
