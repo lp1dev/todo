@@ -2,7 +2,11 @@
 
 ### Simple command line todolist
 
-I first wrote the Python version 4 years ago, and a few days ago decided to do the same program over using different languages.
+Todo polyglot is a simple CLI todolist for *nix systems.
+
+I first wrote the Python2 version ~4 years ago.
+
+Lately, I decided to do the same program over using different languages as an exercise.
 Here is the original readme that I'm using as specifications :
 
 > todo
@@ -32,4 +36,3 @@ Here is the original readme that I'm using as specifications :
 ## Upcoming verions
 
 - todo_ruby?
-- todo_asm?
