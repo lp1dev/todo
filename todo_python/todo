@@ -1,8 +1,9 @@
 #!/usr/bin/python
 
+from os import environ
 import  sys
 
-todofolder=""
+todofolder = environ["HOME"] + "/"
 debug = 1
 green = "\033[1;32m"
 white = "\033[0;m"
@@ -18,7 +19,8 @@ def             show():
     try:
         with open(todofolder+".todolist", "r+"):
             todolist = open(todofolder+".todolist", "r+")
-    except IOError:
+    except IOError as e:
+        print(e)
         print("You actually have no todo file. Please execute this command : \ntouch "+todofolder+".todolist")
         sys.exit(0);
     todo = todolist.readlines();
