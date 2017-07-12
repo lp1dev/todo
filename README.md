@@ -1,4 +1,4 @@
-# Todo
+# Todo Polyglot
 
 ### Simple command line todolist
 
@@ -26,9 +26,10 @@ Here is the original readme that I'm using as specifications :
 
 - todo_python : The legacy one, fully working
 - todo_c : Working
+- todo_kotlin : Working
 - todo_go : WIP
 
 ## Upcoming verions
 
-- todo_ruby
-- todo_asm
+- todo_ruby?
+- todo_asm?
