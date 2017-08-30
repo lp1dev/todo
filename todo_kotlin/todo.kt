@@ -1,4 +1,5 @@
 import java.io.File
+import java.io.FileNotFoundException
 
 var FILENAME = System.getenv("HOME") + "/.todolist"
 var COLOR_NEUTRAL = '\u001B' + "[0;0m"
@@ -50,10 +51,19 @@ fun usage() {
 
 fun getTasks(): MutableList<Task> {
     var file = File(FILENAME)
-    var lines = file.readLines()
-    var tasks = mutableListOf<Task>();
-    for (line in lines) {
-        tasks.add(Task(line))
+    var lines : List<String>
+    var tasks = mutableListOf<Task>()
+    try {
+        lines = file.readLines()
+    
+        for (line in lines) {
+            tasks.add(Task(line))
+        }
+    }
+    catch (e: FileNotFoundException) {
+        println(e)
+        println("Please create a $FILENAME file")
+        System.exit(-1)
     }
     return tasks
 }
