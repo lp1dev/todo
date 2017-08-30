@@ -1,7 +1,11 @@
 #ifndef _TODO_H_
-  #ifndef BUFFER_SIZE
-  #define BUFFER_SIZE 1024
-  #endif
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 2048
+#define COLOR_GREEN "\033[1;32m"
+#define COLOR_WHITE "\033[0;m"
+#define COLOR_RED "\033[1;31m"
+#define COLOR_NEUTRAL "\033[0m"
+#endif
 
 enum{
   LIST,HELP,STATUS,ADD,RM

@@ -8,6 +8,7 @@
 #include "todo.h"
 
 char *actions_str[] = {"list", "help", "status", "add", "rm"};
+char *todolist_file;
 
 int array_length(void **array) {
   int length = 0;
@@ -39,29 +40,34 @@ Task createTask(char *string){
 
 void print_tasks(TodoList *tl){
   for(int i = 0; i < tl->num_tasks; i++){
-    printf("%i [%s] : %s\n", i, tl->tasks[i]->status ? "Done" : "Todo", tl->tasks[i]->name);
+    if (tl->tasks[i]->status)
+      printf("[Task %i]: %s\n[Status]: %s%s%s\n\n", i, tl->tasks[i]->name, COLOR_GREEN, "Done", COLOR_NEUTRAL);
+    else
+      printf("[Task %i]: %s\n[Status]: %s%s%s\n\n", i, tl->tasks[i]->name, COLOR_RED, "Todo", COLOR_NEUTRAL);
   }
 }
 
 void dump_file(TodoList *tl){
-  char *todolist_file = getenv("HOME");
-  int fd = open(todolist_file, O_RDWR);
+  int fd = open(todolist_file, O_WRONLY);
   char *buffer = malloc(sizeof(char) * BUFFER_SIZE);
+  char *output = malloc(sizeof(char) * BUFFER_SIZE * tl->num_tasks);
   if (fd < 0){
-    printf("%s : no such file\n", todolist_file);
-    exit(-1);    
+    fd = open(todolist_file, O_APPEND);
+    printf("[info] %s created\n", todolist_file);
   }
   for(int i = 0; i < tl->num_tasks; i++){
     if (strlen(tl->tasks[i]->name) > 0){
+      memset(buffer, 0, strlen(buffer));
       sprintf(buffer, "%s;%i\n", tl->tasks[i]->name, tl->tasks[i]->status);
-      write(fd, buffer, strlen(buffer));
-    }
-  } 
+      strcat(output, buffer);
+    }    
+  }
+  write(fd, output, strlen(output));
+  close(fd);
 }
 
 TodoList *parseFile(){
   char *buffer = malloc(sizeof(char) * BUFFER_SIZE);
-  char *todolist_file = strcat(getenv("HOME"), "/.todolist");
   TodoList *tl = malloc(sizeof(TodoList) * 2);
   tl->tasks = malloc(sizeof(Task) * BUFFER_SIZE);
   size_t len = 0;
@@ -69,14 +75,15 @@ TodoList *parseFile(){
   int i = 0;
   
   if (!fp){
-    printf("%s : no such file\n", todolist_file);
-    exit(-1);
+    fp = fopen(todolist_file, "a+");
+    printf("[info] %s created\n", todolist_file);
   }
   while (getline(&buffer, &len, fp) != -1){
     tl->tasks[i++] = createTask(buffer);
   }
   tl->tasks[i] = NULL;
   tl->num_tasks = i;
+  fclose(fp);
   return tl;
 }
 
@@ -118,6 +125,7 @@ int add(int argc, char **argv, TodoList *tl){
     dump_file(tl);
   }
   print_tasks(tl);
+  return 0;
 }
 
 int rm(int argc, char **argv, TodoList *tl){
@@ -135,12 +143,13 @@ int rm(int argc, char **argv, TodoList *tl){
     dump_file(tl);
   }
   print_tasks(tl);
+  return 0;
 }
 
 int status(int argc, char **argv, TodoList *tl){
     if (argc != 3){
-    help(argc, argv, tl);
-    return -1;
+      help(argc, argv, tl);
+      return -1;
   }
   int num = atoi(argv[2]);
   if (num > -1 && num < tl->num_tasks){
@@ -148,11 +157,15 @@ int status(int argc, char **argv, TodoList *tl){
     dump_file(tl);
   }
   print_tasks(tl);
+  return 0;
 }
 
 int (*actions[5])(int, char**, TodoList *) = {list, help, status, add, rm};
 
 int main(int argc, char **argv){
+  todolist_file = getenv("HOME");
+  strcat(todolist_file, "/.todolist");
+
   Params params;
   params = handle_params(argc, argv);
   return (*actions[params.action])(argc, argv, parseFile());

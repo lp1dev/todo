@@ -1,6 +1,7 @@
 NAME=todo
 SRCS=todo.c
-GCC=gcc -g -o ${NAME} ${SRCS}
+CC=gcc
+FLAGS= -g
 
 all: 
-	${GCC}
+	${CC} ${FLAGS} -o ${NAME} ${SRCS}
