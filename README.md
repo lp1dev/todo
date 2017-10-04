@@ -4,6 +4,8 @@
 
 Todo polyglot is a simple CLI todolist for *nix systems.
 
+![https://github.com/lp1dev/todo/blob/master/todo.gif?raw=true](https://github.com/lp1dev/todo/blob/master/todo.gif?raw=true)
+
 I first wrote the Python2 version ~4 years ago.
 
 Lately, I decided to do the same program over using different languages as an exercise.
@@ -28,9 +30,9 @@ Here is the original readme that I'm using as specifications :
 
 ## Available versions
 
-- todo_python : The legacy one, fully working
-- todo_c : Working
-- todo_kotlin : Working
+- todo_python : The legacy one, Fully working
+- todo_c : Fully Working
+- todo_kotlin : Fully Working
 - todo_go : WIP
 
 ## Upcoming verions
